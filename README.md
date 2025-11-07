@@ -1,2 +1,2 @@
-# AutomationExercisePractice
-Practicing automated tests using Cypress for an E-commerce test website called Automation Exercise.
+# Project Details
+This project was created to practice and showcase learned skills in automation testing using Cypress.
