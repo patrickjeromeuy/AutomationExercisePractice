@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import SignupPage from '../pages/SignupPage';
 import LoginPage from '../pages/LoginPage';
+import HomePage from '../pages/HomePage';
 
 const signupName = faker.person.fullName();
 const signupEmail = faker.internet.email();
@@ -24,7 +25,7 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-describe('Automation Exercise', () => {
+describe('Signup / Login', () => {
   beforeEach(() => {
     cy.visit('http://automationexercise.com/')
   })
@@ -147,14 +148,15 @@ describe('Automation Exercise', () => {
     cy.get('.login-form p').should('contain', "Your email or password is incorrect!")
   })
   //Logout User
-  it('should logout the user', () => {
+  it.only('should logout the user', () => {
     cy.contains('Signup / Login').click()
     cy.get(".login-form h2").should('contain', "Login to your account")
-    cy.get('[data-qa="login-email"]').type(loginEmail)
+    LoginPage.login(loginEmail, 'admin')
+    /*cy.get('[data-qa="login-email"]').type(loginEmail)
     cy.get('[data-qa="login-password"]').type('admin')
-    cy.get('[data-qa="login-button"]').click()
+    cy.get('[data-qa="login-button"]').click()*/
     cy.get('.nav.navbar-nav').last().should('contain', 'Logged in as ' + loginName)
-    cy.get('a[href="/logout"]').click();
+    HomePage.logout()
     cy.url().should('eq', 'https://automationexercise.com/login')
   })
   //Register User with existing email
