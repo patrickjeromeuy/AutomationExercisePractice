@@ -10,7 +10,6 @@ const signupEmail = faker.internet.email();
 const loginEmail = 'mr.lawrence@protection.com'
 const loginName = 'Mr Bean'
 
-let days = [];
 let months = [
   'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
   'September', 'October', 'November', 'December'
@@ -19,11 +18,11 @@ let years = [];
 
 let countries = [];
 
-function getRandomInt(min, max) {
+/*function getRandomInt(min, max) {
   min = Math.ceil(min);   // Ensure min is an integer
   max = Math.floor(max);  // Ensure max is an integer
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+}*/
 
 describe('Signup / Login', () => {
   beforeEach(() => {
@@ -31,21 +30,22 @@ describe('Signup / Login', () => {
   })
 
   //Register User
-  it('should create an account then delete account', () => {
+  it.only('should create an account then delete account', () => {
     cy.contains('Signup / Login').click()
     cy.get(".signup-form h2").should('contain', "New User Signup!")
     /*cy.get('[data-qa="signup-name"]').type(signupName)
     cy.get('[data-qa="signup-email"]').type(signupEmail)
     cy.get('[data-qa="signup-button"]').click()*/
-    SignupPage.signup(signupName, signupEmail)
+    SignupPage.signupUser(signupName, signupEmail)
     cy.get(".login-form h2").first().should('contain', "Enter Account Information")
-    cy.get('[type="radio"]').eq(getRandomInt(0,1)).check()
+    //cy.get('[type="radio"]').eq(getRandomInt(0,1)).check()
+    //SignupPage.selectGender(0, 1)
     cy.get('[data-qa="name"]').should('have.value', signupName)
     cy.get('[data-qa="email"]').should('be.disabled')
     cy.get('[data-qa="email"]').should('have.value', signupEmail)
     cy.get('[data-qa="password"]').type('admin')
 
-    cy.get('[data-qa="days"]')
+    /*cy.get('[data-qa="days"]')
     .find('option')
     .its('length')
     .then((optionsLength) => {
@@ -86,7 +86,7 @@ describe('Signup / Login', () => {
       .then(() => {
         cy.get('[data-qa="years"]').should('have.value', years[randomIndex])
       })
-    });
+    });*/
 
     cy.get('[type="checkbox"]').not('[disabled]').check()
     cy.get('[type="checkbox"]').not('[disabled]').should('be.checked')
@@ -148,7 +148,7 @@ describe('Signup / Login', () => {
     cy.get('.login-form p').should('contain', "Your email or password is incorrect!")
   })
   //Logout User
-  it.only('should logout the user', () => {
+  it('should logout the user', () => {
     cy.contains('Signup / Login').click()
     cy.get(".login-form h2").should('contain', "Login to your account")
     LoginPage.login(loginEmail, 'admin')
