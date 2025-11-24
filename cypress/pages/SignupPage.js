@@ -1,21 +1,27 @@
 class SignupPage {
+  //Sign Up
   get nameInput() { return cy.get('[data-qa="signup-name"]'); }
   get emailInput() { return cy.get('[data-qa="signup-email"]'); }
   get signupButton() { return cy.get('[data-qa="signup-button"]'); }
+  //Account Information
   get titleRadio() { return cy.get('input[type="radio"][name="title"]'); }
+  get fullName() { return cy.get('[data-qa="name"]'); }
+  get email() { return cy.get('[data-qa="email"]'); }
   get passwordInput() { return cy.get('[data-qa="password"]') }
   get daysDropdown() { return cy.get('[data-qa="days"]'); }
   get monthsDropdown() { return cy.get('[data-qa="months"]'); }
   get yearsDropdown() { return cy.get('[data-qa="years"]'); }
+  //Address Information
+  get firstnameInput() { return cy.get('[data-qa="first_name"]') }
+  get lastnameInput() { return cy.get('[data-qa="last_name"]') }
+  get companyInput() { return cy.get('[data-qa="company"]') }
+  get addressoneInput() { return cy.get('[data-qa="address"]') }
+  get addresstwoInput() { return cy.get('[data-qa="address2"]') }
 
   signupUser(name, email) {
     this.nameInput.type(name);
     this.emailInput.type(email);
     this.signupButton.click();
-    this.selectGender(0, 1)
-    this.selectDay(1, 32);
-    this.selectMonth(1, 13);
-    this.selectYear(1990, 2021);
   }
 
   selectGender(min, max) {
@@ -30,37 +36,40 @@ class SignupPage {
       });
   }
 
-  selectDay(min, max) {
-    this.daysDropdown
-      .then($days => {
-        cy.getRandomInt(min, max)
-          .then(randomIndex => {
-            cy.wrap($days)
-              .select(randomIndex)
-          })
-      })
+  enterPassword(password) {
+    this.passwordInput.type(password);
   }
 
-  selectMonth(min, max) {
-    this.monthsDropdown
-      .then($months => {
-        cy.getRandomInt(min, max)
-          .then(randomIndex => {
-            cy.wrap($months)
-              .select(randomIndex)
-          })
-      })
+  selectDay(day) {
+    this.daysDropdown.select(day);
   }
 
-  selectYear(min, max) {
-    this.yearsDropdown
-      .then($years => {
-        cy.getRandomInt(min, max)
-          .then(randomIndex => {
-            cy.wrap($years)
-              .select(String(randomIndex))
-          })
-      })
+  selectMonth(month) {
+    this.monthsDropdown.select(month);
+  }
+
+  selectYear(year) {
+    this.yearsDropdown.select(String(year));
+  }
+
+  enterFirstname(firstName) {
+    this.firstnameInput.type(firstName);
+  }
+
+  enterLastname(lastName) {
+    this.lastnameInput.type(lastName);
+  }
+
+  enterCompany(company) {
+    this.companyInput.type(company);
+  }
+
+  enterAddressone(addressOne) {
+    this.addressoneInput.type(addressOne);
+  }
+
+  enterAddresstwo(addressTwo) {
+    this.addresstwoInput.type(addressTwo);
   }
 
 }

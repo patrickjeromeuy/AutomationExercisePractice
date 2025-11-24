@@ -24,7 +24,7 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('getRandomInt', (min = 0, max = 999) => {
+Cypress.Commands.add('getRandomInt', (min, max) => {
     const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
     return cy.wrap(randomNumber);
 });

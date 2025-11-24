@@ -4,9 +4,6 @@ import SignupPage from '../pages/SignupPage';
 import LoginPage from '../pages/LoginPage';
 import HomePage from '../pages/HomePage';
 
-const signupName = faker.person.fullName();
-const signupEmail = faker.internet.email();
-
 const loginEmail = 'mr.lawrence@protection.com'
 const loginName = 'Mr Bean'
 
@@ -14,7 +11,6 @@ let months = [
   'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
   'September', 'October', 'November', 'December'
 ];
-let years = [];
 
 let countries = [];
 
@@ -31,6 +27,14 @@ describe('Signup / Login', () => {
 
   //Register User
   it.only('should create an account then delete account', () => {
+    const signupName = faker.person.fullName();
+    const signupEmail = faker.internet.email();
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const company = faker.company.name();
+    const addressOne = faker.location.streetAddress();
+    const addressTwo = faker.location.streetAddress();
+
     cy.contains('Signup / Login').click()
     cy.get(".signup-form h2").should('contain', "New User Signup!")
     /*cy.get('[data-qa="signup-name"]').type(signupName)
@@ -39,63 +43,37 @@ describe('Signup / Login', () => {
     SignupPage.signupUser(signupName, signupEmail)
     cy.get(".login-form h2").first().should('contain', "Enter Account Information")
     //cy.get('[type="radio"]').eq(getRandomInt(0,1)).check()
-    //SignupPage.selectGender(0, 1)
-    cy.get('[data-qa="name"]').should('have.value', signupName)
-    cy.get('[data-qa="email"]').should('be.disabled')
-    cy.get('[data-qa="email"]').should('have.value', signupEmail)
-    cy.get('[data-qa="password"]').type('admin')
-
-    /*cy.get('[data-qa="days"]')
-    .find('option')
-    .its('length')
-    .then((optionsLength) => {
-      const randomIndex = getRandomInt(1, optionsLength - 1);
-      cy.get('[data-qa="days"]').select(randomIndex)
-      cy.get('[data-qa="days"]')
-      .find('option')
-      .each(($option) => {
-        const value = $option.attr('value');
-        days.push(value);
-      })
-      .then(() => {
-        cy.get('[data-qa="days"]').should('have.value', days[randomIndex])
-      })
-    });
-
-    cy.get('[data-qa="months"]')
-    .find('option')
-    .its('length')
-    .then((optionsLength) => {
-      const randomIndex = getRandomInt(1, optionsLength - 1);
-      cy.get('[data-qa="months"]').select(randomIndex)
-      cy.get('[data-qa="months"]').find('option:selected').should('have.text', months[randomIndex - 1])
-    });
-
-    cy.get('[data-qa="years"]')
-    .find('option')
-    .its('length')
-    .then((optionsLength) => {
-      const randomIndex = getRandomInt(1, optionsLength - 1);
-      cy.get('[data-qa="years"]').select(randomIndex)
-      cy.get('[data-qa="years"]')
-      .find('option')
-      .each(($option) => {
-        const value = $option.attr('value');
-        years.push(value);
-      })
-      .then(() => {
-        cy.get('[data-qa="years"]').should('have.value', years[randomIndex])
-      })
-    });*/
+    SignupPage.selectGender(0, 1)
+    SignupPage.fullName.should('have.value', signupName)
+    SignupPage.email.should('be.disabled')
+    SignupPage.email.should('have.value', signupEmail)
+    SignupPage.enterPassword('admin')
+    cy.getRandomInt(1, 31).then((randomDay) => {
+      SignupPage.selectDay(randomDay);
+      SignupPage.daysDropdown.should('have.value', randomDay);
+    })
+    cy.getRandomInt(1, 13).then((randomMonth) => {
+      SignupPage.selectMonth(randomMonth);
+      SignupPage.monthsDropdown.find('option:selected').should('have.text', months[randomMonth - 1])
+    })
+    cy.getRandomInt(1990, 2021).then((randomYear) => {
+      SignupPage.selectYear(randomYear);
+      SignupPage.yearsDropdown.should('have.value', randomYear);
+    })
 
     cy.get('[type="checkbox"]').not('[disabled]').check()
     cy.get('[type="checkbox"]').not('[disabled]').should('be.checked')
 
-    cy.get('[data-qa="first_name"]').type('Bean')
-    cy.get('[data-qa="last_name"]').type('Sabine')
-    cy.get('[data-qa="company"]').type('Bean Sabine')
-    cy.get('[data-qa="address"]').type('Bean Sabine')
-    cy.get('[data-qa="address2"]').type('Bean Sabine')
+    SignupPage.enterFirstname(firstName)
+    SignupPage.firstnameInput.should('have.value', firstName)
+    SignupPage.enterLastname(lastName)
+    SignupPage.lastnameInput.should('have.value', lastName)
+    SignupPage.enterCompany(company)
+    SignupPage.companyInput.should('have.value', company)
+    SignupPage.enterAddressone(addressOne)
+    SignupPage.addressoneInput.should('have.value', addressOne)
+    SignupPage.enterAddresstwo(addressTwo)
+    SignupPage.addresstwoInput.should('have.value', addressTwo)
 
     cy.get('[data-qa="country"]')
     .find('option')
